@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pip = "*"
+whisper = {git = "https://github.com/openai/whisper.git"}
+setuptools-rust = "*"
+torch = "*"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+m3u8 = "*"
+peewee = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
