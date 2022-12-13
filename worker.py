@@ -9,16 +9,17 @@ class Worker(Thread):
     def run(self):
         while True:
             try:
-                logging.info("Processing...")
+                print("Processing...")
                 self.process()
-                logging.info("Done.")
+                print("Done.")
             except Exception as e:
-                logging.warning(str(e))
+                print(str(e))
 
             sleep(10)
 
     def get_task_available(self) -> Task:
-        return Task.select().where(Task.status == "waiting").limit(1).get()
+        return Task.select().where(Task.status == "waiting") \
+            .limit(1).get()
 
     def process(self):
         task = self.get_task_available()
@@ -33,5 +34,5 @@ class Worker(Thread):
             caption_ref_id = task_processor.execute()
             task.set_as_finished(caption_ref_id)
         except Exception as e:
-            logging.warning(str(e))
+            print(str(e))
             task.set_as_failed()
