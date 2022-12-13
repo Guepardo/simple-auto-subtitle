@@ -36,14 +36,24 @@
 # result = model.transcribe("audio.mp3")
 # print(result)
 
+import uuid
 from services.playlist_selector import PlaylistSelector
 from services.hls_audio_converter import HlsAudioConverter
+from services.transcript_generator import TranscriptGenerator
+from services.caption_generator import CaptionGenerator
 
-url = "https://nsm-video.netshow.me/6e9ef96b-249f-4ecc-91e0-ac6d70c34bb5/b4b88a3c-a16e-497c-976c-8d5d0109dd07/playlist.m3u8"
-selector = PlaylistSelector(source_url=url)
-playlist = selector.execute()
+namespace = str(uuid.uuid4())
 
-print(playlist)
+source_url = "https://nsm-video.netshow.me/6e9ef96b-249f-4ecc-91e0-ac6d70c34bb5/b4b88a3c-a16e-497c-976c-8d5d0109dd07/playlist.m3u8"
+selector = PlaylistSelector(source_url)
+playlist_selected = selector.execute()
 
-converter = HlsAudioConverter("https://nsm-video.netshow.me/6e9ef96b-249f-4ecc-91e0-ac6d70c34bb5/b4b88a3c-a16e-497c-976c-8d5d0109dd07/playlist-240p.m3u8", "asdf")
-converter.execute()
+converter = HlsAudioConverter(playlist_selected, namespace)
+audio_full_path = converter.execute()
+
+transcript_generator = TranscriptGenerator(audio_full_path)
+segments = transcript_generator.execute()
+
+caption_generator = CaptionGenerator(segments, namespace)
+captions = caption_generator.execute()
+

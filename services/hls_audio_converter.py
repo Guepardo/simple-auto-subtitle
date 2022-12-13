@@ -5,7 +5,7 @@ from utils import shell
 class HlsAudioConverter:
     ROOT_TMP_DIR = 'tmp'
 
-    def __init__(self, playlist_uri, namespace):
+    def __init__(self, playlist_uri: str, namespace: str):
         self.playlist_uri = playlist_uri
         self.namespace = namespace
 
