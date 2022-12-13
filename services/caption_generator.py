@@ -3,9 +3,10 @@ from typing import List
 
 
 class CaptionGenerator:
-    def __init__(self, segments: List, namespace: str):
+    def __init__(self, segments: List, storage_path: str, caption_name: str):
         self.segments = segments
-        self.namespace = namespace
+        self.storage_path = storage_path
+        self.caption_name = caption_name
 
     def execute(self) -> List:
         captions = []
@@ -23,9 +24,7 @@ class CaptionGenerator:
 
             captions.append(segment)
 
-        with open("caption.srt", 'w', encoding='utf-8') as srt:
+        with open(f"{self.storage_path}/{self.caption_name}.srt", 'w', encoding='utf-8') as srt:
             for caption in captions:
-                 srt.write(caption)
+                srt.write(caption)
 
-
-        return caption
